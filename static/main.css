@@ -1,0 +1,68 @@
+body {
+  font-family: 'Open Sans', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Ubuntu', sans-serif;
+  display: flex;
+  margin: 0px;
+  height: calc(100vh - 400px);
+  padding: 200px;
+}
+
+nav {
+  flex-grow: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 100px;
+}
+
+nav a {
+  margin: 10px;
+  color: rgb(180, 180, 180);
+  transition: all 0.2s ease-in;
+}
+
+nav a.selected, nav a:hover {
+  color: rgb(0, 210, 35);
+}
+
+main {
+  flex-grow: 95;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+}
+
+.search label {
+  display: none;
+}
+
+.search input[type="search"] {
+  flex: 9 1 50%;
+  margin-right: 20px;
+}
+
+input, button, .button {
+  border: none;
+  padding: 10px;
+  background: rgb(245, 245, 245);
+  border-radius: 4px;
+}
+
+input[type="submit"], button, .button {
+  background: rgb(0, 210, 35);
+  color: white;
+  cursor: pointer;
+  padding: 10px 30px;
+}
+
+h1 {
+  margin-bottom: 75px;
+}
+
+article {
+  text-align: justify;
+}

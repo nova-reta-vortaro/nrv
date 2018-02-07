@@ -1,0 +1,15 @@
+{% extends "base" %}
+
+{% block title %}Hejmo{% endblock title %}
+
+{% block content %}
+  <h1>La Nova Reta Vortaro</h1>
+
+  <form class="search" method="get" action="sercxu">
+    <label for="demando">Serĉu</label>
+    <input type="search" name="demando">
+    <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
+  </form>
+
+  <p>La nova reta vortaro estas tiel la reta vortaro, sed kun moderna dizajno.</p>
+{% endblock content %}

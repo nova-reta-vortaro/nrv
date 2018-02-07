@@ -1,0 +1,21 @@
+{% extends "base" %}
+
+{% block title %}Serĉu{% endblock title %}
+
+{% block content %}
+  <h1>Serĉu en la vortaro</h1>
+
+  <form class="search" method="get">
+    <label for="demando">Serĉu</label>
+    <input type="search" name="demando" value="{{ query }}">
+    <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
+  </form>
+
+  <ul>
+    {% for result in results %}
+      <li>
+        <a href="/vorto/{{ result }}">{{ result }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

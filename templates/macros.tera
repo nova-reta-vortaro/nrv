@@ -1,0 +1,5 @@
+{% macro nav_link(href, title, icon, selected) %}
+  <a href="{{ href }}" title="{{ title }}" {% if selected == href %}class="selected"{% endif %}>
+    <i data-feather="{{ icon }}"></i>
+  </a>
+{% endmacro nav_link %}

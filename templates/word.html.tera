@@ -1,0 +1,10 @@
+{% extends "base" %}
+
+{% block title %}{{ title | capitalize }}{% endblock title %}
+
+{% block content %}
+  <h1>{{ title | capitalize }}</h1>
+  <article>
+    {{ content | safe }}
+  </article>
+{% endblock content %}

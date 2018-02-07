@@ -1,0 +1,30 @@
+{% import "macros" as macros %}
+
+{% if selected is undefined %}
+  {% set selected = "" %}
+{% endif %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %} — Nova Reta Vortaro</title>
+    <link rel="stylesheet" href="/static/main.css">
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  </head>
+  <body>
+    <nav>
+      {{ macros::nav_link(href="/", title="Hejmo", icon="home", selected=selected) }}
+      {{ macros::nav_link(href="/sercxu", title="Serĉu", icon="search", selected=selected) }}
+      {{ macros::nav_link(href="/hazarda", title="Hazarda artikolo", icon="shuffle", selected=selected) }}
+      {{ macros::nav_link(href="/redakti", title="Redakti tion paĝon", icon="edit", selected=selected) }}
+    </nav>
+    <main>
+      {% block content %}
+      {% endblock content %}
+    </main>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
