@@ -111,7 +111,7 @@ fn search_results(query: SearchQuery, index: State<Index>) -> Template {
     Template::render("search", &json!({
         "selected": "/sercxu",
         "query": query.demando,
-        "results": index.filter(&query.demando.unwrap_or("".to_string()))
+        "results": index.filter(&parse_x_notation(query.demando.unwrap_or("".to_string())))
     }))
 }
 
