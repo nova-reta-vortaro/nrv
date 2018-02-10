@@ -11,7 +11,7 @@
     <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
   </form>
 
-  <ul>
+  <ul class="search-results">
     {% for result in results %}
       <li>
         <a href="/vorto/{{ result }}">{{ result }}</a>
