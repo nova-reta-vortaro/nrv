@@ -11,11 +11,23 @@
     <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
   </form>
 
-  <ul class="search-results">
-    {% for result in results %}
-      <li>
-        <a href="/vorto/{{ result }}">{{ result }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+  {% set res_count = results | length %}
+
+  {% if res_count > 0 %}
+    <div class="search-results">
+      <p>{{ res_count }} trafo{{ res_count | pluralize (suffix="j") }}</p>
+      <ul>
+        {% for result in results %}
+          <li>
+            <a href="/vorto/{{ result }}">{{ result }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <div class="search-results error">
+      <h1>:(</h1>
+      <p>Neniu trafo</p>
+    </div>
+  {% endif %}
 {% endblock content %}
