@@ -7,4 +7,10 @@
   <article>
     {{ definition | safe }}
   </article>
+  <h2>Translations</h2>
+  <ul>
+    {% for lang, trans in translations %}
+      <li><b>{{ lang }} : </b> {{ trans | join(sep = ", ") }}</li>
+    {% endfor %}
+  </ul>
 {% endblock content %}
