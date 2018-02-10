@@ -9,8 +9,8 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 extern crate markdown;
+extern crate rand;
 
-use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::PathBuf;
@@ -18,9 +18,12 @@ use std::path::Path;
 use std::collections::HashMap;
 
 use rocket::State;
-use rocket_contrib::Template;
+use rocket::response::Redirect;
 use rocket::response::status::NotFound;
 use rocket::response::NamedFile;
+use rocket_contrib::Template;
+
+use rand::Rng;
 
 #[derive(Serialize, Deserialize)]
 struct Word {
@@ -77,6 +80,11 @@ impl Index {
 
         res
     }
+
+    fn random (&self) -> String {
+        let index = rand::thread_rng().gen_range(0, self.words.len());
+        self.words[index].clone()
+    }
 }
 
 #[get("/static/<file..>")]
@@ -126,6 +134,12 @@ fn word(vorto: String) -> Result<Template, NotFound<String>> {
     }
 }
 
+#[get("/hazarda")]
+fn random(index: State<Index>) -> Redirect {
+    let article_name = index.random();
+    Redirect::to(&format!("/vorto/{}", article_name))
+}
+
 fn parse_x_notation(text: String) -> String {
     text.replace("cx", "ĉ")
         .replace("gx", "ĝ")
@@ -140,7 +154,8 @@ fn main() {
         index,
         search,
         search_results,
-        word
+        word,
+        random
     ])
     .manage(Index::new())
     .attach(Template::fairing())
