@@ -5,12 +5,28 @@
 {% block content %}
   <h1>{{ word | capitalize }}</h1>
   <article>
-    {{ definition | safe }}
+    {% set m_count = meanings | length %}
+    {% for m in meanings %}
+      <p>
+        {% if m_count > 1 %}
+          <b>{{ loop.index }} &mdash;</b>
+        {% endif %}
+        {% if m.usage != "" %}
+          <i>{{ m.usage }}</i>
+        {% endif %}
+        {{ m.definition }}
+      </p>
+      {% for ex in m.examples %}
+        <blockquote>
+          {{ ex }}
+        </blockquote>
+      {% endfor %}
+    {% endfor %}
   </article>
-  <h2>Translations</h2>
+  {#<h2>Translations</h2>
   <ul>
     {% for lang, trans in translations %}
       <li><b>{{ lang }} : </b> {{ trans | join(sep = ", ") }}</li>
     {% endfor %}
-  </ul>
+  </ul>#}
 {% endblock content %}

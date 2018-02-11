@@ -103,3 +103,12 @@ article {
   background: rgb(245, 245, 245);
   text-shadow: 0px 0px 1px rgba(0, 210, 35, 0.2)
 }
+
+blockquote {
+  border-left: 2px solid rgb(180, 180, 180);
+  padding: 10px;
+}
+
+article {
+  padding-bottom: 20vh;
+}

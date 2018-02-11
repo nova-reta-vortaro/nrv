@@ -25,13 +25,18 @@ use rocket_contrib::Template;
 
 use rand::Rng;
 
+
+#[derive(Serialize, Deserialize)]
+struct Meaning {
+    usage: String,
+    definition: String,
+    examples: Vec<String>
+}
+
 #[derive(Serialize, Deserialize)]
 struct Word {
     word: String,
-    definition: String,
-    #[serde(rename = "see-also")]
-    see_also: Vec<String>,
-    translations: HashMap<String, Vec<String>>
+    meanings: Vec<Meaning>
 }
 
 impl Word {
@@ -44,7 +49,6 @@ impl Word {
         file.read_to_string(&mut contents)?;
 
         let mut word : Word = serde_json::from_str(contents.as_str()).unwrap();
-        word.definition = markdown::to_html(word.definition.as_str());
         Ok(word)
     }
 }
