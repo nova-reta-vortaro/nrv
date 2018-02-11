@@ -11,172 +11,28 @@ extern crate serde_derive;
 extern crate markdown;
 extern crate rand;
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::path::PathBuf;
-use std::path::Path;
-use std::collections::HashMap;
+mod index;
+mod word;
+mod utils;
+mod routes;
 
-use rocket::State;
-use rocket::response::Redirect;
-use rocket::response::status::NotFound;
-use rocket::response::NamedFile;
 use rocket_contrib::Template;
-
-use rand::Rng;
-
-
-#[derive(Serialize, Deserialize)]
-struct Meaning {
-    usage: String,
-    definition: String,
-    examples: Vec<String>
-}
-
-#[derive(Serialize, Deserialize)]
-struct Word {
-    word: String,
-    meanings: Vec<Meaning>
-}
-
-impl Word {
-    fn from_file (filename: &str) -> std::io::Result<Word> {
-        let complete_path = format!("articles/{}.json", filename);
-        let path = Path::new(&complete_path);
-        let mut file = File::open(&path)?;
-
-        let mut contents = String::new();
-        file.read_to_string(&mut contents)?;
-
-        let mut word : Word = serde_json::from_str(contents.as_str())?;
-        Ok(word)
-    }
-}
-
-struct Index {
-    words: Vec<String>
-}
-
-impl Index {
-    fn new () -> Index {
-        let paths = std::fs::read_dir("articles").unwrap();
-
-        Index {
-            words: paths.filter_map(|path| {
-                let file = String::from(format!("{}", path.unwrap().path().display()));
-                if file.ends_with(".json") {
-                    Some(file.replace("articles/", "").replace(".json", ""))
-                } else {
-                    None
-                }
-            }).collect()
-        }
-    }
-
-    fn filter (&self, search: &str) -> Vec<String> {
-        let mut res = Vec::new();
-
-        for word in self.words.clone() {
-            if word.contains(search) {
-                res.push(word.clone())
-            }
-        }
-
-        res
-    }
-
-    fn random (&self) -> String {
-        let index = rand::thread_rng().gen_range(0, self.words.len());
-        self.words[index].clone()
-    }
-}
-
-#[get("/static/<file..>")]
-fn static_files(file: PathBuf) -> Result<NamedFile, NotFound<String>> {
-    let path = Path::new("static/").join(file);
-    NamedFile::open(&path).map_err(|_| NotFound(format!("Bad path: {}", path.to_str().unwrap_or("error"))))
-}
-
-#[get("/")]
-fn index() -> Template {
-    Template::render("index", &json!({
-        "selected": "/"
-    }))
-}
-
-#[get("/sercxu")]
-fn search() -> Template {
-    Template::render("search", &json!({
-        "selected": "/sercxu",
-        "query": "",
-        "results": []
-    }))
-}
-
-#[derive(FromForm)]
-struct SearchQuery {
-    demando: Option<String>
-}
-
-#[get("/sercxu?<query>")]
-fn search_results(query: SearchQuery, index: State<Index>) -> Template {
-    Template::render("search", &json!({
-        "selected": "/sercxu",
-        "query": query.demando,
-        "results": index.filter(&parse_x_notation(query.demando.unwrap_or("".to_string())))
-    }))
-}
-
-#[get("/vorto/<vorto>")]
-fn word(vorto: String) -> std::io::Result<Template> {
-    match Word::from_file(&vorto.as_str()) {
-        Err(_) => match Word::from_file(&parse_x_notation(vorto).as_str()) {
-            Err(why) => Err(why),
-            Ok(data) => Ok(Template::render("word", &serde_json::to_value(&data).unwrap()))
-        },
-        Ok(data) => Ok(Template::render("word", &serde_json::to_value(&data).unwrap()))
-    }
-}
-
-#[get("/hazarda")]
-fn random(index: State<Index>) -> Redirect {
-    let article_name = index.random();
-    Redirect::to(&format!("/vorto/{}", article_name))
-}
-
-fn parse_x_notation(text: String) -> String {
-    text.replace("cx", "ĉ")
-        .replace("gx", "ĝ")
-        .replace("hx", "ĥ")
-        .replace("jx", "ĵ")
-        .replace("sx", "ŝ")
-}
-
-#[error(500)]
-fn server_error() -> Template {
-    Template::render("errors/500", &json!({}))
-}
-
-#[error(404)]
-fn not_found() -> Template {
-    Template::render("errors/404", &json!({}))
-}
 
 fn main() {
     rocket::ignite()
         .mount("/", routes![
-            static_files,
-            index,
-            search,
-            search_results,
-            word,
-            random
+            routes::static_files,
+            routes::index,
+            routes::search,
+            routes::search_results,
+            routes::word,
+            routes::random
         ])
         .catch(errors![
-            not_found,
-            server_error
+            routes::not_found,
+            routes::server_error
         ])
-        .manage(Index::new())
+        .manage(index::Index::new())
         .attach(Template::fairing())
         .launch();
 }
