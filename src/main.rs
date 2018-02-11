@@ -48,7 +48,7 @@ impl Word {
         let mut contents = String::new();
         file.read_to_string(&mut contents)?;
 
-        let mut word : Word = serde_json::from_str(contents.as_str()).unwrap();
+        let mut word : Word = serde_json::from_str(contents.as_str())?;
         Ok(word)
     }
 }
@@ -128,10 +128,10 @@ fn search_results(query: SearchQuery, index: State<Index>) -> Template {
 }
 
 #[get("/vorto/<vorto>")]
-fn word(vorto: String) -> Result<Template, NotFound<String>> {
+fn word(vorto: String) -> std::io::Result<Template> {
     match Word::from_file(&vorto.as_str()) {
         Err(_) => match Word::from_file(&parse_x_notation(vorto).as_str()) {
-            Err(_) => Err(NotFound(String::from("Can't find requested file"))),
+            Err(why) => Err(why),
             Ok(data) => Ok(Template::render("word", &serde_json::to_value(&data).unwrap()))
         },
         Ok(data) => Ok(Template::render("word", &serde_json::to_value(&data).unwrap()))
@@ -152,16 +152,31 @@ fn parse_x_notation(text: String) -> String {
         .replace("sx", "ŝ")
 }
 
+#[error(500)]
+fn server_error() -> Template {
+    Template::render("errors/500", &json!({}))
+}
+
+#[error(404)]
+fn not_found() -> Template {
+    Template::render("errors/404", &json!({}))
+}
+
 fn main() {
-    rocket::ignite().mount("/", routes![
-        static_files,
-        index,
-        search,
-        search_results,
-        word,
-        random
-    ])
-    .manage(Index::new())
-    .attach(Template::fairing())
-    .launch();
+    rocket::ignite()
+        .mount("/", routes![
+            static_files,
+            index,
+            search,
+            search_results,
+            word,
+            random
+        ])
+        .catch(errors![
+            not_found,
+            server_error
+        ])
+        .manage(Index::new())
+        .attach(Template::fairing())
+        .launch();
 }

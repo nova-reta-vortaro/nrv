@@ -49,14 +49,14 @@ main {
   margin-right: 20px;
 }
 
-input, button, .button {
+input, button, .button, .error a {
   border: none;
   padding: 10px;
   background: rgb(245, 245, 245);
   border-radius: 4px;
 }
 
-input[type="submit"], button, .button {
+input[type="submit"], button, .button, .error a {
   background: rgb(0, 210, 35);
   color: white;
   cursor: pointer;
@@ -75,13 +75,19 @@ article {
   margin-top: 50px;
 }
 
-.search-results.error {
+.error {
   text-align: center;
 }
 
-.search-results.error h1 {
+.error h1 {
   color: rgb(180, 180, 180);
   font-size: 5em;
+}
+
+.error a {
+  font-weight: bold;
+  text-decoration: none;
+  margin: auto;
 }
 
 .search-results ul {

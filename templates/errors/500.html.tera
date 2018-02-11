@@ -1,0 +1,9 @@
+{% extends "errors/base" %}
+
+{% block title %}Io rompis{% endblock title %}
+
+{% block content %}
+  <h1>:(</h1>
+  <h2>Io rompis</h2>
+  <p>Ni pardonpetas pri la ĝeno.</p>
+{% endblock content %}
