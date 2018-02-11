@@ -12,4 +12,6 @@
   </form>
 
   <p>La nova reta vortaro estas tiel la reta vortaro, sed kun moderna dizajno.</p>
+
+  <p>Vi povas helpi aŭ legi la kodo <a href="https://github.com/nova-reta-vortaro/nrv">sur GitHub</a>.</p>
 {% endblock content %}

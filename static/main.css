@@ -6,6 +6,10 @@ body {
   padding: 200px;
 }
 
+a, a:visited {
+  color: rgb(0, 210, 35);
+}
+
 nav {
   flex-grow: 5;
   display: flex;
@@ -14,7 +18,7 @@ nav {
   margin-right: 100px;
 }
 
-nav a {
+nav a, nav a:visited {
   margin: 10px;
   color: rgb(180, 180, 180);
   transition: all 0.2s ease-in;
