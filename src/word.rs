@@ -1,4 +1,5 @@
 use std;
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -15,7 +16,10 @@ pub struct Meaning {
 #[derive(Serialize, Deserialize)]
 pub struct Word {
     pub word: String,
-    pub meanings: Vec<Meaning>
+    pub meanings: Vec<Meaning>,
+    pub translations: HashMap<String, Vec<String>>,
+    pub related: Vec<String>,
+    pub bibliography: Vec<String>
 }
 
 impl Word {
