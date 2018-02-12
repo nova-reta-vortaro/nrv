@@ -14,7 +14,7 @@
         {% if m.usage != "" %}
           <i>{{ m.usage }}</i>
         {% endif %}
-        {{ m.definition }}
+        {{ m.definition | safe }}
       </p>
       {% for ex in m.examples %}
         <blockquote>
@@ -22,11 +22,12 @@
         </blockquote>
       {% endfor %}
     {% endfor %}
+    
+    <h2>Tradukoj</h2>
+    <ul>
+      {% for lang, trans in translations %}
+        <li><b>{{ lang }} : </b> {{ trans | join(sep = ", ") | safe }}</li>
+      {% endfor %}
+    </ul>
   </article>
-  {#<h2>Translations</h2>
-  <ul>
-    {% for lang, trans in translations %}
-      <li><b>{{ lang }} : </b> {{ trans | join(sep = ", ") }}</li>
-    {% endfor %}
-  </ul>#}
 {% endblock content %}
