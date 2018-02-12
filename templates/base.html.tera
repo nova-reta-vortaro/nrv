@@ -22,6 +22,10 @@
     <main>
       {% block content %}
       {% endblock content %}
+      <footer>
+        {% block footer %}
+        {% endblock footer %}
+      </footer>
     </main>
     <script>
       feather.replace()

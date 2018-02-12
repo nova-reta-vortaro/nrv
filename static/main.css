@@ -80,6 +80,12 @@ article {
   text-align: justify;
 }
 
+footer {
+  padding-top: 100px;
+  text-align: center;
+  color: rgb(180, 180, 180);
+}
+
 .search-results {
   margin-top: 50px;
 }
