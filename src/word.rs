@@ -4,6 +4,7 @@ use std::fs::File;
 use std::io::Read;
 use std::path::Path;
 
+use markdown;
 use serde_json;
 
 #[derive(Serialize, Deserialize)]
@@ -31,7 +32,14 @@ impl Word {
         let mut contents = String::new();
         file.read_to_string(&mut contents)?;
 
-        let word : Word = serde_json::from_str(contents.as_str())?;
+        let mut word : Word = serde_json::from_str(contents.as_str())?;
+        word.meanings = word.meanings.into_iter().map(|mut m| {
+            m.definition = markdown::to_html(m.definition.as_str());
+            m.examples = m.examples.into_iter().map(|e| {
+                markdown::to_html(e.as_str())
+            }).collect();
+            m
+        }).collect();
         Ok(word)
     }
 }
