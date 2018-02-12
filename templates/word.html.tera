@@ -39,5 +39,10 @@
         {% endif %}
       {% endfor %}
     </p>
+
+    {% if bibliography | length > 0 %}
+      <h2>Fontoj</h2>
+      <p>{{ bibliography | join(sep = ", ") }}</p>
+    {% endif %}
   </article>
 {% endblock content %}
