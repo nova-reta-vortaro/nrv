@@ -4,4 +4,5 @@ pub fn parse_x_notation(text: String) -> String {
         .replace("hx", "ĥ")
         .replace("jx", "ĵ")
         .replace("sx", "ŝ")
+        .replace("ux", "ŭ")
 }
