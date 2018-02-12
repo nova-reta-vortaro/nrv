@@ -13,7 +13,7 @@
 
   {% set res_count = results | length %}
 
-  {% if res_count > 0 %}
+  {% if res_count > 0 and query | length > 0 %}
     <div class="search-results">
       <p>{{ res_count }} trafo{{ res_count | pluralize (suffix="j") }}</p>
       <ul>
@@ -25,9 +25,11 @@
       </ul>
     </div>
   {% else %}
-    <div class="search-results error">
-      <h1>:(</h1>
-      <p>Neniu trafo</p>
-    </div>
+    {% if res_count == 0 %}
+      <div class="search-results error">
+        <h1>:(</h1>
+        <p>Neniu trafo</p>
+      </div>
+    {% endif %}
   {% endif %}
 {% endblock content %}
