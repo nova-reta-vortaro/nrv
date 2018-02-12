@@ -1,6 +1,9 @@
 use std;
+use std::cell::RefCell;
+use std::ops::Deref;
 use std::path::Path;
 use std::path::PathBuf;
+use std::sync::Mutex;
 
 use serde_json;
 
@@ -10,6 +13,7 @@ use rocket::response::status::NotFound;
 use rocket::response::NamedFile;
 use rocket_contrib::Template;
 
+use daily_article::DailyArticle;
 use index::Index;
 use utils::parse_x_notation;
 use word::Word;
@@ -26,10 +30,31 @@ fn static_files(file: PathBuf) -> Result<NamedFile, NotFound<String>> {
 }
 
 #[get("/")]
-fn index() -> Template {
-    Template::render("index", &json!({
-        "selected": "/"
-    }))
+fn index(da: State<Mutex<RefCell<DailyArticle>>>, idx: State<Index>) -> std::io::Result<Template> {
+    let ref_cell = da.lock().unwrap();
+    let da_title = ref_cell.deref().borrow_mut().get(&idx);
+
+    match Word::from_file(da_title.as_str()) {
+        Err(why) => { // refresh the daily word if the current one is broken
+            ref_cell.deref().borrow_mut().refresh(&idx);
+            Err(why)
+        },
+        Ok(daily_article) => {
+            let mut def = daily_article.meanings[0].definition.clone();
+            let limit = match def.len() > 100 {
+                true => 100,
+                false => def.len()
+            };
+            def.split_off(limit);
+            Ok(Template::render("index", &json!({
+                "selected": "/",
+                "daily_article": {
+                    "title": da_title,
+                    "preview": def
+                }
+            })))
+        }
+    }
 }
 
 #[get("/sercxu")]

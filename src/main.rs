@@ -10,11 +10,16 @@ extern crate serde_json;
 extern crate serde_derive;
 extern crate markdown;
 extern crate rand;
+extern crate time;
 
+mod daily_article;
 mod index;
 mod word;
 mod utils;
 mod routes;
+
+use std::cell::RefCell;
+use std::sync::Mutex;
 
 use rocket_contrib::Template;
 
@@ -33,6 +38,7 @@ fn main() {
             routes::server_error
         ])
         .manage(index::Index::new())
+        .manage(Mutex::new(RefCell::new(daily_article::DailyArticle::new())))
         .attach(Template::fairing())
         .launch();
 }

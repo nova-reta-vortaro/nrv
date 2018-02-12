@@ -11,6 +11,10 @@
     <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
   </form>
 
+  <h2>Artikolo de hodiaŭ : {{ daily_article.title }}</h2>
+  <p>{{ daily_article.preview }}…</p>
+  <a class="button" href="/vorto/{{ daily_article.title }}">Legi pli…</a>
+
   <p>La nova reta vortaro estas tiel la reta vortaro, sed kun moderna dizajno.</p>
 
   <p>Vi povas helpi aŭ legi la kodo <a href="https://github.com/nova-reta-vortaro/nrv">sur GitHub</a>.</p>

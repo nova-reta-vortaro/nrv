@@ -11,6 +11,7 @@ serde_json = "*"
 serde_derive = "*"
 markdown = { git = "https://github.com/johannhof/markdown.rs.git" }
 rand = "0.4.2"
+time = "0.1.39"
 
 [dependencies.rocket_contrib]
 version = "0.3.6"

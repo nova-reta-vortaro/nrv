@@ -54,6 +54,11 @@ input, button, .button, .error a {
   padding: 10px;
   background: rgb(245, 245, 245);
   border-radius: 4px;
+  text-decoration: none;
+}
+
+button, .button {
+  margin: auto;
 }
 
 input[type="submit"], button, .button, .error a {
@@ -65,6 +70,10 @@ input[type="submit"], button, .button, .error a {
 
 h1 {
   margin-bottom: 75px;
+}
+
+h2 {
+  margin-top: 50px;
 }
 
 article {

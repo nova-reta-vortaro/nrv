@@ -6,16 +6,16 @@ use std::path::Path;
 use serde_json;
 
 #[derive(Serialize, Deserialize)]
-struct Meaning {
-    usage: String,
-    definition: String,
-    examples: Vec<String>
+pub struct Meaning {
+    pub usage: String,
+    pub definition: String,
+    pub examples: Vec<String>
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Word {
-    word: String,
-    meanings: Vec<Meaning>
+    pub word: String,
+    pub meanings: Vec<Meaning>
 }
 
 impl Word {
