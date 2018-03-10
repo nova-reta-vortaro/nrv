@@ -36,7 +36,8 @@ fn main() {
             routes::random
         ])
         .mount("/api", routes![
-            api::word
+            api::word,
+            api::search_results
         ])
         .catch(errors![
             routes::not_found,

@@ -19,3 +19,8 @@ pub fn find_word(word: String) -> Result<Word> {
         Ok(data) => Ok(data)
     }
 }
+
+#[derive(FromForm)]
+pub struct SearchQuery {
+    pub demando: Option<String>
+}

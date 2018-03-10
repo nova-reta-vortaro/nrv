@@ -18,11 +18,6 @@ use index::Index;
 use utils;
 use word::Word;
 
-#[derive(FromForm)]
-struct SearchQuery {
-    demando: Option<String>
-}
-
 #[get("/static/<file..>")]
 fn static_files(file: PathBuf) -> Result<NamedFile, NotFound<String>> {
     let path = Path::new("static/").join(file);
@@ -67,7 +62,7 @@ fn search() -> Template {
 }
 
 #[get("/sercxu?<query>")]
-fn search_results(query: SearchQuery, index: State<Index>) -> Template {
+fn search_results(query: utils::SearchQuery, index: State<Index>) -> Template {
     Template::render("search", &json!({
         "selected": "/sercxu",
         "query": query.demando,
