@@ -18,7 +18,7 @@
       </p>
       {% for ex in m.examples %}
         <blockquote>
-          {{ ex }}
+          {{ ex | safe }}
         </blockquote>
       {% endfor %}
     {% endfor %}
