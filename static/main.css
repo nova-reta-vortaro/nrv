@@ -74,6 +74,10 @@ input[type="submit"], button, .button, .error a {
   padding: 10px 30px;
 }
 
+h1, h2 {
+  font-family: 'Montserrat Alternates';
+}
+
 h1 {
   margin-bottom: 75px;
 }
