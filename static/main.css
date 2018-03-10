@@ -137,3 +137,15 @@ blockquote {
 article {
   padding-bottom: 20vh;
 }
+
+@media screen and (max-width: 1080px) {
+  body {
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  nav {
+    flex-direction: row;
+    margin-right: 0px;
+  }
+}
