@@ -46,7 +46,13 @@ main {
 
 .search input[type="search"] {
   flex: 9 1 50%;
-  margin-right: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.search button {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 input, button, .button, .error a {
