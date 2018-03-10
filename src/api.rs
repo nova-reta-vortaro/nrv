@@ -28,3 +28,9 @@ fn search_results(query: utils::SearchQuery, index: State<Index>) -> Json {
         "results": index.filter(&utils::parse_x_notation(query.demando.unwrap_or("".to_string())))
     }))
 }
+
+#[get("/hazarda")]
+fn random(index: State<Index>) -> Json {
+    let article_name = index.random();
+    to_json(utils::find_word(article_name))
+}
