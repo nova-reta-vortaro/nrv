@@ -11,6 +11,7 @@
     <title>{% block title %}{% endblock title %} — Nova Reta Vortaro</title>
     <link rel="stylesheet" href="/static/main.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates|Open+Sans" rel="stylesheet">
+    <link href="/static/favicon.png" rel="shortcut icon">
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   </head>
   <body>
