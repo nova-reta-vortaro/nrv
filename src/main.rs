@@ -4,6 +4,7 @@
 
 extern crate rocket;
 extern crate rocket_contrib;
+extern crate serde;
 #[macro_use]
 extern crate serde_json;
 #[macro_use]
@@ -12,6 +13,7 @@ extern crate markdown;
 extern crate rand;
 extern crate time;
 
+mod api;
 mod daily_article;
 mod index;
 mod word;
@@ -32,6 +34,9 @@ fn main() {
             routes::search_results,
             routes::word,
             routes::random
+        ])
+        .mount("/api", routes![
+            api::word
         ])
         .catch(errors![
             routes::not_found,

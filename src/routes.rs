@@ -15,7 +15,7 @@ use rocket_contrib::Template;
 
 use daily_article::DailyArticle;
 use index::Index;
-use utils::parse_x_notation;
+use utils;
 use word::Word;
 
 #[derive(FromForm)]
@@ -71,19 +71,15 @@ fn search_results(query: SearchQuery, index: State<Index>) -> Template {
     Template::render("search", &json!({
         "selected": "/sercxu",
         "query": query.demando,
-        "results": index.filter(&parse_x_notation(query.demando.unwrap_or("".to_string())))
+        "results": index.filter(&utils::parse_x_notation(query.demando.unwrap_or("".to_string())))
     }))
 }
 
 #[get("/vorto/<vorto>")]
 fn word(vorto: String) -> std::io::Result<Template> {
-    match Word::from_file(&vorto.as_str()) {
-        Err(_) => match Word::from_file(&parse_x_notation(vorto).as_str()) {
-            Err(why) => Err(why),
-            Ok(data) => Ok(Template::render("word", &serde_json::to_value(&data).unwrap()))
-        },
-        Ok(data) => Ok(Template::render("word", &serde_json::to_value(&data).unwrap()))
-    }
+    utils::find_word(vorto).map(|data| {
+        Template::render("word", &serde_json::to_value(&data).unwrap())
+    })
 }
 
 #[get("/hazarda")]
