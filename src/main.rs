@@ -33,7 +33,9 @@ fn main() {
             routes::search,
             routes::search_results,
             routes::word,
-            routes::random
+            routes::random,
+            routes::import,
+            routes::send_import
         ])
         .mount("/api", routes![
             api::word,
@@ -44,7 +46,7 @@ fn main() {
             routes::not_found,
             routes::server_error
         ])
-        .manage(index::Index::new())
+        .manage(Mutex::new(RefCell::new(index::Index::new())))
         .manage(Mutex::new(RefCell::new(daily_article::DailyArticle::new())))
         .attach(Template::fairing())
         .launch();

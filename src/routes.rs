@@ -25,7 +25,10 @@ fn static_files(file: PathBuf) -> Result<NamedFile, NotFound<String>> {
 }
 
 #[get("/")]
-fn index(da: State<Mutex<RefCell<DailyArticle>>>, idx: State<Index>) -> std::io::Result<Template> {
+fn index(da: State<Mutex<RefCell<DailyArticle>>>, index: State<Mutex<RefCell<Index>>>) -> std::io::Result<Template> {
+    let rc = index.lock().unwrap();
+    let idx = rc.deref().borrow();
+
     let ref_cell = da.lock().unwrap();
     let da_title = ref_cell.deref().borrow_mut().get(&idx);
 
@@ -62,11 +65,13 @@ fn search() -> Template {
 }
 
 #[get("/sercxu?<query>")]
-fn search_results(query: utils::SearchQuery, index: State<Index>) -> Template {
+fn search_results(query: utils::SearchQuery, index: State<Mutex<RefCell<Index>>>) -> Template {
+    let rc = index.lock().unwrap();
+    let idx = rc.deref().borrow();
     Template::render("search", &json!({
         "selected": "/sercxu",
         "query": query.demando,
-        "results": index.filter(&utils::parse_x_notation(query.demando.unwrap_or("".to_string())))
+        "results": idx.filter(&utils::parse_x_notation(query.demando.unwrap_or("".to_string())))
     }))
 }
 
@@ -78,14 +83,31 @@ fn word(vorto: String) -> std::io::Result<Template> {
 }
 
 #[get("/hazarda")]
-fn random(index: State<Index>) -> Redirect {
-    let article_name = index.random();
+fn random(index: State<Mutex<RefCell<Index>>>) -> Redirect {
+    let rc = index.lock().unwrap();
+    let idx = rc.deref().borrow();
+    let article_name = idx.random();
     Redirect::to(&format!("/vorto/{}", article_name))
+}
+
+#[get("/importo")]
+fn import() -> Template {
+    Template::render("import", &json!({}))
+}
+
+#[get("/importo?<query>")]
+fn send_import(query: utils::SearchQuery, index: State<Mutex<RefCell<Index>>>) -> Redirect {
+    let rc = index.lock().unwrap();
+    let mut idx = rc.deref().borrow_mut();
+    idx.import(query.demando.clone().unwrap());
+    Redirect::to(&format!("/"))
 }
 
 #[error(500)]
 fn server_error() -> Template {
-    Template::render("errors/500", &json!({}))
+    Template::render("errors/500", &json!({
+        "selected": "/importo"
+    }))
 }
 
 #[error(404)]

@@ -1,4 +1,6 @@
 use std;
+use std::process::Command;
+use std::env;
 use rand;
 use rand::Rng;
 
@@ -37,5 +39,14 @@ impl Index {
     pub fn random (&self) -> String {
         let index = rand::thread_rng().gen_range(0, self.words.len());
         self.words[index].clone()
+    }
+
+    pub fn import (&mut self, word: String) {
+        Command::new("sh")
+            .arg("-c")
+            .arg(format!("{} {}", env::var("IMPORT_CMD").unwrap(), word))
+            .spawn()
+            .expect("failed to execute process");
+        self.words.push(word);
     }
 }

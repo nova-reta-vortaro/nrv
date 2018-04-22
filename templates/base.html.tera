@@ -20,7 +20,7 @@
       {{ macros::nav_link(href="/", title="Hejmo", icon="home", selected=selected) }}
       {{ macros::nav_link(href="/sercxu", title="Serĉu", icon="search", selected=selected) }}
       {{ macros::nav_link(href="/hazarda", title="Hazarda artikolo", icon="shuffle", selected=selected) }}
-      {{ macros::nav_link(href="/redakti", title="Redakti tion paĝon", icon="edit", selected=selected) }}
+      {{ macros::nav_link(href="/importo", title="Importo novan vorto", icon="plus", selected=selected) }}
     </nav>
     <main>
       {% block content %}
