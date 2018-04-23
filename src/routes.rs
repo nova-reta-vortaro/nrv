@@ -92,7 +92,9 @@ fn random(index: State<Mutex<RefCell<Index>>>) -> Redirect {
 
 #[get("/importo")]
 fn import() -> Template {
-    Template::render("import", &json!({}))
+    Template::render("import", &json!({
+        "selected": "/importo"
+    }))
 }
 
 #[get("/importo?<query>")]
@@ -105,9 +107,7 @@ fn send_import(query: utils::SearchQuery, index: State<Mutex<RefCell<Index>>>) -
 
 #[error(500)]
 fn server_error() -> Template {
-    Template::render("errors/500", &json!({
-        "selected": "/importo"
-    }))
+    Template::render("errors/500", &json!({}))
 }
 
 #[error(404)]
