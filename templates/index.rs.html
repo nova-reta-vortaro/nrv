@@ -1,8 +1,9 @@
-{% extends "base" %}
+@use crate::templates::*;
+@use crate::word::Word;
 
-{% block title %}Hejmo{% endblock title %}
+@(daily_article: Word)
 
-{% block content %}
+@:base(Some(0), "Hejmo", {
   <h1>La Nova Reta Vortaro</h1>
 
   <form class="search" method="get" action="sercxu">
@@ -11,15 +12,10 @@
     <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
   </form>
 
-  <h2>Artikolo de hodiaŭ : {{ daily_article.title }}</h2>
-  <p>
-    {{ daily_article.preview | safe }}…
-    <a href="/vorto/{{ daily_article.title }}">Legi pli…</a>
-  </p>
-{% endblock content %}
-
-{% block footer %}
+  <h2>Artikolo de hodiaŭ : @&daily_article.word</h2>
+  <a href="/vorto/@daily_article.word">Legi</a>
+}, {
   <p>La nova reta vortaro estas tiel la reta vortaro, sed kun moderna dizajno.</p>
 
   <p>Vi povas helpi aŭ legi la kodo <a href="https://github.com/nova-reta-vortaro/nrv">sur GitHub</a>.</p>
-{% endblock footer %}
+})

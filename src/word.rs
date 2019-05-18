@@ -4,10 +4,11 @@ use std::fs::File;
 use std::io::Read;
 use std::path::Path;
 
-use markdown;
+use pulldown_cmark;
+use serde::{Serialize, Deserialize};
 use serde_json;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Meaning {
     pub usage: String,
     pub definition: String,
@@ -34,12 +35,17 @@ impl Word {
 
         let mut word : Word = serde_json::from_str(contents.as_str())?;
         word.meanings = word.meanings.into_iter().map(|mut m| {
-            m.definition = markdown::to_html(m.definition.as_str());
-            m.examples = m.examples.into_iter().map(|e| {
-                markdown::to_html(e.as_str())
-            }).collect();
+            m.definition = md(&m.definition);
+            m.examples = m.examples.into_iter().map(|e| md(&e)).collect();
             m
         }).collect();
         Ok(word)
     }
+}
+
+fn md(s: &str) -> String {
+    let mut r = String::new();
+    let parser = pulldown_cmark::Parser::new(s);
+    pulldown_cmark::html::push_html(&mut r, parser);
+    r
 }

@@ -1,0 +1,13 @@
+@use crate::templates::*;
+
+@()
+
+@:base(Some(3), "Importu", {
+	<h1>Importu novan vorto</h1>
+
+	<form class="search" method="get">
+		<label for="demando">Vorto</label>
+		<input type="search" name="demando">
+		<button type="submit" title="Importu"><i data-feather="check"></i></button>
+	</form>
+}, {})

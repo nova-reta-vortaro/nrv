@@ -1,5 +1,5 @@
 use std::io::Result;
-use word::Word;
+use crate::word::Word;
 
 pub fn parse_x_notation(text: String) -> String {
     text.replace("cx", "ĉ")
@@ -18,9 +18,4 @@ pub fn find_word(word: String) -> Result<Word> {
         },
         Ok(data) => Ok(data)
     }
-}
-
-#[derive(FromForm)]
-pub struct SearchQuery {
-    pub demando: Option<String>
 }

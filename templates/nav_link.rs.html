@@ -1,0 +1,8 @@
+@use std::str;
+
+@(href: &str, title: &str, icon: &str, selected: bool)
+
+<a href="@href" title="@title" @if selected { class="selected" }>
+	<i data-feather="@icon"></i>
+</a>
+

@@ -1,0 +1,47 @@
+@use crate::word::*;
+@use crate::templates::*;
+
+@(word: Word)
+
+@:base(None, &word.word.clone(), {
+  <h1>@word.word</h1>
+  <article>
+    @for (idx, m) in word.meanings.clone().into_iter().enumerate() {
+      <p>
+        @if word.meanings.len() > 1 {
+          <b>@(idx + 1) &mdash;</b>
+        }
+
+        @if !m.usage.is_empty() {
+          <i>@m.usage</i>
+        }
+
+        @Html(m.definition)
+      </p>
+      @for ex in m.examples {
+        <blockquote>
+          @Html(ex)
+        </blockquote>
+      }
+    }
+
+    <h2>Tradukoj</h2>
+    <ul>
+      @for (lang, trans) in word.translations.into_iter() {
+        <li><b>@lang: </b>@trans.join(", ")</li>
+      }
+    </ul>
+
+    <h2>Parencaj vortoj</h2>
+    <ul>
+      @for rel in word.related {
+        <li><a href="/vorto/@rel">@rel</a></li>
+      }
+    </ul>
+
+    @if !word.bibliography.is_empty() {
+      <h2>Fontoj</h2>
+      <p>@word.bibliography.join(", ")</p>
+    }
+  </article>
+}, {})

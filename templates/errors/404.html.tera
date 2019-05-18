@@ -1,9 +1,0 @@
-{% extends "errors/base" %}
-
-{% block title %}Nenio ĉi-tie{% endblock title %}
-
-{% block content %}
-  <h1>:(</h1>
-  <h2>Nenio ĉi-tie</h2>
-  <p>Provu alia paĝo.</p>
-{% endblock content %}

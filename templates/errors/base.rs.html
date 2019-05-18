@@ -1,15 +1,18 @@
+@use std::str;
+
+@(title: &str, content: Content)
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}{% endblock title %} — Nova Reta Vortaro</title>
+    <title>@title — Nova Reta Vortaro</title>
     <link rel="stylesheet" href="/static/main.css">
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   </head>
   <body>
     <main class="error">
-      {% block content %}
-      {% endblock content %}
+      @:content()
       <a href="/">Iri hejme</a>
     </main>
     <script>
