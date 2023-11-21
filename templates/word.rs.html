@@ -3,7 +3,7 @@
 
 @(word: Word)
 
-@:base(None, &word.word.clone(), {
+@:base_html(None, &word.word.clone(), {
   <h1>@word.word</h1>
   <article>
     @for (idx, m) in word.meanings.clone().into_iter().enumerate() {

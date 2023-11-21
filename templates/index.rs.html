@@ -3,7 +3,7 @@
 
 @(daily_article: Word)
 
-@:base(Some(0), "Hejmo", {
+@:base_html(Some(0), "Hejmo", {
   <h1>La Nova Reta Vortaro</h1>
 
   <form class="search" method="get" action="sercxu">
@@ -12,7 +12,7 @@
     <button type="submit" title="Serĉu"><i data-feather="search"></i></button>
   </form>
 
-  <h2>Artikolo de hodiaŭ : @&daily_article.word</h2>
+  <h2>Artikolo de hodiaŭ : @daily_article.word</h2>
   <a href="/vorto/@daily_article.word">Legi</a>
 }, {
   <p>La nova reta vortaro estas tiel la reta vortaro, sed kun moderna dizajno.</p>

@@ -15,10 +15,10 @@
   </head>
   <body>
     <nav>
-      @:nav_link("/", "Hejmo", "home", selected.map(|i| i == 0).unwrap_or(false))
-      @:nav_link("/sercxu", "Serĉu", "search", selected.map(|i| i == 1).unwrap_or(false))
-      @:nav_link("/hazarda", "Hazarda artikolo", "shuffle", false)
-      @:nav_link("/importo", "Importo novan vorto", "plus", selected.map(|i| i == 3).unwrap_or(false))
+      @:nav_link_html("/", "Hejmo", "home", selected.map(|i| i == 0).unwrap_or(false))
+      @:nav_link_html("/sercxu", "Serĉu", "search", selected.map(|i| i == 1).unwrap_or(false))
+      @:nav_link_html("/hazarda", "Hazarda artikolo", "shuffle", false)
+      @:nav_link_html("/importo", "Importo novan vorto", "plus", selected.map(|i| i == 3).unwrap_or(false))
     </nav>
     <main>
       @:content()
